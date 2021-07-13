@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 >
-  <androidx.viewpager.widget.ViewPager
+  <com.ouattararomuald.CustomViewPager
       android:id="@+id/view_pager"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
