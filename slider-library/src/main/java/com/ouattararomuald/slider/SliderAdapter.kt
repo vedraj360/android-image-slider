@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
@@ -22,7 +23,7 @@ import java.util.*
  * @property imageLoaderFactory image loader factory.
  * @property imageUrls urls of images to display.
  * @property descriptions images descriptions.
- * @property id ID of the slider.
+ * @property sliderId ID of the slider.
  * @param sliderId ID of the slider.
  */
 class SliderAdapter(
@@ -34,10 +35,11 @@ class SliderAdapter(
         val enableZoom: Boolean = false
 ) : PagerAdapter() {
 
-    val id: String = sliderId ?: UUID.randomUUID().toString()
+    val sliderId: String = sliderId ?: UUID.randomUUID().toString()
     private val imageLoader: ImageLoader
 
     private lateinit var slideImageView: PhotoView
+    private lateinit var slideImageViewNoZoom: ImageView
     private lateinit var descriptionLayout: LinearLayout
     private lateinit var descriptionTextView: AppCompatTextView
 
@@ -71,14 +73,25 @@ class SliderAdapter(
 
         view.apply {
             slideImageView = findViewById(R.id.image)
-            slideImageView.isZoomable = enableZoom
+            slideImageViewNoZoom = findViewById(R.id.image_nozoom)
+            if (enableZoom) {
+                slideImageView.isVisible = true
+                slideImageViewNoZoom.isVisible = false
+                slideImageView.setOnClickListener { imageClickListener?.onItemClicked(sliderId, position, imageUrls[position]) }
+                imageLoader.configureImageView(slideImageView)
+                imageLoader.load(imageUrls[position], slideImageView)
+            } else {
+                slideImageViewNoZoom.isVisible = true
+                slideImageView.isVisible = false
+                slideImageViewNoZoom.setOnClickListener { imageClickListener?.onItemClicked(sliderId, position, imageUrls[position]) }
+                imageLoader.configureImageView(slideImageViewNoZoom)
+                imageLoader.load(imageUrls[position], slideImageViewNoZoom)
+
+            }
             descriptionLayout = findViewById(R.id.description_layout)
             descriptionTextView = findViewById(R.id.description_textview)
         }
 
-        slideImageView.setOnClickListener { imageClickListener?.onItemClicked(id, position, imageUrls[position]) }
-        imageLoader.configureImageView(slideImageView)
-        imageLoader.load(imageUrls[position], slideImageView)
 
         if (descriptions.isNotEmpty()) {
             descriptionTextView.text = descriptions[position]

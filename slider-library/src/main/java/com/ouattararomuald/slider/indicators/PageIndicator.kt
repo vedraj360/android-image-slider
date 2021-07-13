@@ -18,6 +18,7 @@
 package com.ouattararomuald.slider.indicators
 
 import androidx.viewpager.widget.ViewPager
+import com.ouattararomuald.CustomViewPager
 
 /**
  * A PageIndicator is responsible to show an visual indicator on the total views
@@ -29,7 +30,7 @@ internal interface PageIndicator: ViewPager.OnPageChangeListener {
    *
    * @param view
    */
-  fun setViewPager(view: ViewPager)
+  fun setViewPager(view: CustomViewPager)
 
   /**
    * Bind the indicator to a ViewPager.
@@ -37,7 +38,7 @@ internal interface PageIndicator: ViewPager.OnPageChangeListener {
    * @param view
    * @param initialPosition
    */
-  fun setViewPager(view: ViewPager, initialPosition: Int)
+  fun setViewPager(view: CustomViewPager, initialPosition: Int)
 
   /**
    *

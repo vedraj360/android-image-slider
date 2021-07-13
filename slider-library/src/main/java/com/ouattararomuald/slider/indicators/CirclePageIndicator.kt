@@ -32,6 +32,7 @@ import android.widget.LinearLayout.VERTICAL
 import androidx.core.content.ContextCompat
 import androidx.core.view.MotionEventCompat
 import androidx.viewpager.widget.ViewPager
+import com.ouattararomuald.CustomViewPager
 import com.ouattararomuald.slider.R
 
 /**
@@ -50,7 +51,7 @@ internal class CirclePageIndicator : View, PageIndicator {
   private val paintPageFill = Paint(ANTI_ALIAS_FLAG)
   private val paintStroke = Paint(ANTI_ALIAS_FLAG)
   private val paintFill = Paint(ANTI_ALIAS_FLAG)
-  private var viewPager: ViewPager? = null
+  private var viewPager: CustomViewPager? = null
   private var listener: ViewPager.OnPageChangeListener? = null
   private var currentPage: Int = 0
   private var snapPage: Int = 0
@@ -352,7 +353,7 @@ internal class CirclePageIndicator : View, PageIndicator {
     return true
   }
 
-  override fun setViewPager(view: ViewPager) {
+  override fun setViewPager(view: CustomViewPager) {
     if (viewPager === view) {
       return
     }
@@ -367,7 +368,7 @@ internal class CirclePageIndicator : View, PageIndicator {
     invalidate()
   }
 
-  override fun setViewPager(view: ViewPager, initialPosition: Int) {
+  override fun setViewPager(view: CustomViewPager, initialPosition: Int) {
     setViewPager(view)
     setCurrentItem(initialPosition)
   }
