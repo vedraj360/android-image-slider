@@ -44,5 +44,6 @@ dependencies {
 
   androidTestImplementation deps.androidx.test.runner
   androidTestImplementation deps.androidx.test.espresso.core
+
   androidTestImplementation deps.truth
 }
