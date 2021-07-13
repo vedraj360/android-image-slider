@@ -30,7 +30,8 @@ class SliderAdapter(
         private val imageLoaderFactory: ImageLoader.Factory<*>,
         val imageUrls: List<String>,
         val descriptions: List<String> = emptyList(),
-        sliderId: String? = null
+        sliderId: String? = null,
+        val enableZoom: Boolean = false
 ) : PagerAdapter() {
 
     val id: String = sliderId ?: UUID.randomUUID().toString()
@@ -70,6 +71,7 @@ class SliderAdapter(
 
         view.apply {
             slideImageView = findViewById(R.id.image)
+            slideImageView.isZoomable = enableZoom
             descriptionLayout = findViewById(R.id.description_layout)
             descriptionTextView = findViewById(R.id.description_textview)
         }
