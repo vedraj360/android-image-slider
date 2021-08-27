@@ -71,11 +71,11 @@ class ImageSlider : ConstraintLayout {
 
     private val viewPagerTouchLister = OnTouchListener { _, event ->
         when (event.action) {
-          MotionEvent.ACTION_UP -> {
-            if (autoRecoverAfterTouchEvent) {
-              startAutoLooping()
+            MotionEvent.ACTION_UP -> {
+                if (autoRecoverAfterTouchEvent) {
+                    startAutoLooping()
+                }
             }
-          }
         }
 
         return@OnTouchListener false
@@ -144,50 +144,50 @@ class ImageSlider : ConstraintLayout {
         viewPager.setOnTouchListener(viewPagerTouchLister)
 
         val attributes: TypedArray = context.theme.obtainStyledAttributes(
-                attrs, R.styleable.ImageSlider, defStyleAttr, 0
+            attrs, R.styleable.ImageSlider, defStyleAttr, 0
         )
 
         attributes.apply {
             autoRecoverAfterTouchEvent = getBoolean(
-                    R.styleable.ImageSlider_autoRecoverAfterTouchEvent, true
+                R.styleable.ImageSlider_autoRecoverAfterTouchEvent, true
             )
             initWithAutoCycling = getBoolean(R.styleable.ImageSlider_initWithAutoCycling, true)
             indicatorBackgroundResId = getResourceId(
-                    R.styleable.ImageSlider_indicatorBackground, 0
+                R.styleable.ImageSlider_indicatorBackground, 0
             )
             sliderBackgroundResId = getResourceId(R.styleable.ImageSlider_sliderBackground, 0)
             initialSlideDelay = getInt(
-                    R.styleable.ImageSlider_initialSlideDelay, DEFAULT_DELAY.toInt()
+                R.styleable.ImageSlider_initialSlideDelay, DEFAULT_DELAY.toInt()
             ).toLong()
             slideTransitionInterval = getInt(
-                    R.styleable.ImageSlider_slideTransitionInterval, DEFAULT_PERIOD.toInt()
+                R.styleable.ImageSlider_slideTransitionInterval, DEFAULT_PERIOD.toInt()
             ).toLong()
 
             configureIndicator(this)
         }
 
         loopHandler = LoopHandler(initialSlideDelay, slideTransitionInterval, onLoop = {
-          adapter?.let {
-            if (viewPager.currentItem < it.imageUrls.size - 1) {
-              viewPager.currentItem = viewPager.currentItem + 1
-            } else {
-              viewPager.currentItem = 0
+            adapter?.let {
+                if (viewPager.currentItem < it.imageUrls.size - 1) {
+                    viewPager.currentItem = viewPager.currentItem + 1
+                } else {
+                    viewPager.currentItem = 0
+                }
             }
-          }
         })
 
         if (indicatorBackgroundResId != 0) {
             ViewCompat.setBackground(
-                    indicator, AppCompatResources.getDrawable(context, indicatorBackgroundResId)
+                indicator, AppCompatResources.getDrawable(context, indicatorBackgroundResId)
             )
         }
 
         if (sliderBackgroundResId != 0) {
             ViewCompat.setBackground(
-                    this, AppCompatResources.getDrawable(context, sliderBackgroundResId)
+                this, AppCompatResources.getDrawable(context, sliderBackgroundResId)
             )
             ViewCompat.setBackground(
-                    viewPager, AppCompatResources.getDrawable(context, sliderBackgroundResId)
+                viewPager, AppCompatResources.getDrawable(context, sliderBackgroundResId)
             )
         }
     }
@@ -195,46 +195,64 @@ class ImageSlider : ConstraintLayout {
     private fun configureIndicator(attributes: TypedArray) {
         val res = resources
         val defaultPageColor =
-                ContextCompat.getColor(context, R.color.default_circle_indicator_page_color)
+            ContextCompat.getColor(context, R.color.default_circle_indicator_page_color)
         val defaultFillColor =
-                ContextCompat.getColor(context, R.color.default_circle_indicator_fill_color)
+            ContextCompat.getColor(context, R.color.default_circle_indicator_fill_color)
         val defaultStrokeColor =
-                ContextCompat.getColor(context, R.color.default_circle_indicator_stroke_color)
+            ContextCompat.getColor(context, R.color.default_circle_indicator_stroke_color)
         val defaultStrokeWidth = res.getDimension(R.dimen.default_circle_indicator_stroke_width)
         val defaultRadius = res.getDimension(R.dimen.default_circle_indicator_radius)
         val defaultSnap = res.getBoolean(R.bool.default_circle_indicator_snap)
         val defaultIndicatorsMarginLeft = res.getDimension(R.dimen.default_indicators_left_margin)
         val defaultIndicatorsMarginTop = res.getDimension(R.dimen.default_indicators_top_margin)
         val defaultIndicatorsMarginRight = res.getDimension(R.dimen.default_indicators_right_margin)
-        val defaultIndicatorsMarginBottom = res.getDimension(R.dimen.default_indicators_bottom_margin)
+        val defaultIndicatorsMarginBottom =
+            res.getDimension(R.dimen.default_indicators_bottom_margin)
 
         attributes.apply {
-            indicator.setFillColor(getColor(R.styleable.ImageSlider_indicatorFillColor, defaultFillColor))
-            indicator.setPageColor(getColor(R.styleable.ImageSlider_indicatorPageColor, defaultPageColor))
-            indicator.setRadius(getDimension(R.styleable.ImageSlider_indicatorRadius, defaultRadius))
+            indicator.setFillColor(
+                getColor(
+                    R.styleable.ImageSlider_indicatorFillColor,
+                    defaultFillColor
+                )
+            )
+            indicator.setPageColor(
+                getColor(
+                    R.styleable.ImageSlider_indicatorPageColor,
+                    defaultPageColor
+                )
+            )
+            indicator.setRadius(
+                getDimension(
+                    R.styleable.ImageSlider_indicatorRadius,
+                    defaultRadius
+                )
+            )
             indicator.setSnap(getBoolean(R.styleable.ImageSlider_indicatorSnap, defaultSnap))
             indicator.setStrokeColor(
-                    getColor(R.styleable.ImageSlider_indicatorStrokeColor, defaultStrokeColor))
+                getColor(R.styleable.ImageSlider_indicatorStrokeColor, defaultStrokeColor)
+            )
             indicator.setStrokeWidth(
-                    getDimension(R.styleable.ImageSlider_indicatorStrokeWidth, defaultStrokeWidth))
+                getDimension(R.styleable.ImageSlider_indicatorStrokeWidth, defaultStrokeWidth)
+            )
 
             setIndicatorsMargin(
-                    getDimension(
-                            R.styleable.ImageSlider_indicatorsLeftMargin,
-                            defaultIndicatorsMarginLeft
-                    ).toInt(),
-                    getDimension(
-                            R.styleable.ImageSlider_indicatorsTopMargin,
-                            defaultIndicatorsMarginTop
-                    ).toInt(),
-                    getDimension(
-                            R.styleable.ImageSlider_indicatorsRightMargin,
-                            defaultIndicatorsMarginRight
-                    ).toInt(),
-                    getDimension(
-                            R.styleable.ImageSlider_indicatorsBottomMargin,
-                            defaultIndicatorsMarginBottom
-                    ).toInt()
+                getDimension(
+                    R.styleable.ImageSlider_indicatorsLeftMargin,
+                    defaultIndicatorsMarginLeft
+                ).toInt(),
+                getDimension(
+                    R.styleable.ImageSlider_indicatorsTopMargin,
+                    defaultIndicatorsMarginTop
+                ).toInt(),
+                getDimension(
+                    R.styleable.ImageSlider_indicatorsRightMargin,
+                    defaultIndicatorsMarginRight
+                ).toInt(),
+                getDimension(
+                    R.styleable.ImageSlider_indicatorsBottomMargin,
+                    defaultIndicatorsMarginBottom
+                ).toInt()
             )
         }
     }
@@ -245,7 +263,7 @@ class ImageSlider : ConstraintLayout {
         }
 
         when (event.action) {
-          MotionEvent.ACTION_DOWN -> stopAutoLooping()
+            MotionEvent.ACTION_DOWN -> stopAutoLooping()
         }
 
         return false
@@ -319,9 +337,9 @@ class ImageSlider : ConstraintLayout {
      * @param pageChangeListener Listener to add.
      */
     @Deprecated(
-            message = "Use setOnPageChangeListener instead",
-            replaceWith = ReplaceWith("setOnPageChangeListener"),
-            level = DeprecationLevel.WARNING
+        message = "Use setOnPageChangeListener instead",
+        replaceWith = ReplaceWith("setOnPageChangeListener"),
+        level = DeprecationLevel.WARNING
     )
     fun addOnPageChangeListener(pageChangeListener: ViewPager.OnPageChangeListener) {
         viewPager.addOnPageChangeListener(pageChangeListener)
@@ -333,8 +351,8 @@ class ImageSlider : ConstraintLayout {
      * @param pageChangeListener Listener to remove.
      */
     @Deprecated(
-            message = "To be removed",
-            level = DeprecationLevel.WARNING
+        message = "To be removed",
+        level = DeprecationLevel.WARNING
     )
     fun removeOnPageChangeListener(pageChangeListener: ViewPager.OnPageChangeListener) {
         viewPager.removeOnPageChangeListener(pageChangeListener)
@@ -342,10 +360,14 @@ class ImageSlider : ConstraintLayout {
 
     /** Removes all listeners that are notified of any changes in scroll state or position. */
     @Deprecated(
-            message = "To be removed",
-            level = DeprecationLevel.WARNING
+        message = "To be removed",
+        level = DeprecationLevel.WARNING
     )
     fun clearOnPageChangeListeners() {
         viewPager.clearOnPageChangeListeners()
+    }
+
+    fun getViewPager(): CustomViewPager? {
+        return viewPager
     }
 }
