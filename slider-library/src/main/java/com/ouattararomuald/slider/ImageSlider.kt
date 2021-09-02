@@ -4,18 +4,23 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.viewpager.widget.ViewPager
 import com.ouattararomuald.CustomViewPager
 import com.ouattararomuald.slider.indicators.CirclePageIndicator
+import java.lang.Boolean.getBoolean
+
 
 /**
  * Layout manager that allows auto-flip left and right through images.
@@ -46,7 +51,7 @@ class ImageSlider : ConstraintLayout {
     }
 
     private val viewPager: CustomViewPager
-    private val indicator: CirclePageIndicator
+    private var indicator: CirclePageIndicator
 
     private var sliderBackgroundResId: Int = 0
     private var indicatorBackgroundResId: Int = 0
@@ -148,6 +153,14 @@ class ImageSlider : ConstraintLayout {
         )
 
         attributes.apply {
+            val indicatorPosition = getBoolean(
+                R.styleable.ImageSlider_indicatorPositionTop,
+                false
+            )
+
+            if (indicatorPosition) {
+                indicator = findViewById(R.id.circle_page_indicator_top)
+            }
             autoRecoverAfterTouchEvent = getBoolean(
                 R.styleable.ImageSlider_autoRecoverAfterTouchEvent, true
             )
@@ -210,12 +223,15 @@ class ImageSlider : ConstraintLayout {
             res.getDimension(R.dimen.default_indicators_bottom_margin)
 
         attributes.apply {
+
+
             indicator.setFillColor(
                 getColor(
                     R.styleable.ImageSlider_indicatorFillColor,
                     defaultFillColor
                 )
             )
+
             indicator.setPageColor(
                 getColor(
                     R.styleable.ImageSlider_indicatorPageColor,

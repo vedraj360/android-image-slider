@@ -92,7 +92,7 @@ class SliderAdapter(
                 var rotationAngle = rotationAngles[position]
                 imageRotateLeft.setOnClickListener {
                     rotationAngle -= 90.0.toFloat()
-                    if (rotationAngle == 0f) {
+                    if (rotationAngle == - 90f) {
                         rotationAngle = 270f
                     }
                     rotationAngles[position] = rotationAngle
