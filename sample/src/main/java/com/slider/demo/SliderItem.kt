@@ -47,6 +47,24 @@ internal class SliderItem(
                 "ID: $sliderId, Position: $position, Image URL: $imageUrl", Toast.LENGTH_LONG)
                 .show()
       }
+
+      override fun onRotateRightClicked(
+        sliderId: String,
+        position: Int,
+        rotationAngle: Float,
+        imageUrl: String
+      ) {
+
+      }
+
+      override fun onRotateLeft(
+        sliderId: String,
+        position: Int,
+        rotationAngle: Float,
+        imageUrl: String
+      ) {
+
+      }
     })
     viewHolder.slider.pageTransformer = pageTransformer
   }

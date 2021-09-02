@@ -1,15 +1,22 @@
 package com.slider.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import com.ouattararomuald.slider.ImageSlider
+import com.ouattararomuald.slider.SliderAdapter
+import com.ouattararomuald.slider.loaders.glide.GlideImageLoaderFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,10 +30,61 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
   }
+
+  private fun imageSlider() {
+    val pics = ""
+    if (pics.isNotEmpty()) {
+      val images = listOf(*pics.split("\\s*,\\s*".toRegex()).toTypedArray())
+      val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
+      val  setAdapter = SliderAdapter(this, GlideImageLoaderFactory(), images, emptyList(), null, true,
+        enableRotationView = true
+      )
+      imageSlider.adapter = setAdapter
+      imageSlider.adapter?.setImageClickListener(object :SliderAdapter.ImageViewClickListener{
+        override fun onItemClicked(sliderId: String, position: Int, imageUrl: String) {
+
+        }
+
+        override fun onRotateRightClicked(
+          sliderId: String,
+          position: Int,
+          rotationAngle: Float,
+          imageUrl: String
+        ) {
+          Log.e("TAG", "onRotateRightClicked: ")
+          Log.e("TAG", "onRotateRightClicked: ${rotationAngle}" )
+          imageSlider.adapter = setAdapter
+          setAdapter.notifyDataSetChanged()
+          if (imageSlider.getViewPager() != null) {
+            imageSlider.getViewPager()?.currentItem = position
+          }
+        }
+
+        override fun onRotateLeft(
+          sliderId: String,
+          position: Int,
+          rotationAngle: Float,
+          imageUrl: String
+        ) {
+          Log.e("TAG", "onRotateLeft: ")
+          Log.e("TAG", "onRotateLeft: ${rotationAngle}" )
+          imageSlider.adapter = setAdapter
+          setAdapter.notifyDataSetChanged()
+          if (imageSlider.getViewPager() != null) {
+            imageSlider.getViewPager()?.currentItem = position
+          }
+        }
+      })
+    }
+  }
+
 
   override fun onResume() {
     super.onResume()
+
+
 
     groupAdapter.add(section)
 

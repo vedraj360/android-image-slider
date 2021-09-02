@@ -62,7 +62,7 @@ class ImageSlider : ConstraintLayout {
      * Determines whether or not this slider should immediately starts its transitions after
      * its adapter is assigned.
      */
-    private var initWithAutoCycling = true
+    private var initWithAutoCycling = false
 
     /** Determines whether or not the ImageSlider should recover after user touch event. */
     private var autoRecoverAfterTouchEvent = true
@@ -151,7 +151,7 @@ class ImageSlider : ConstraintLayout {
             autoRecoverAfterTouchEvent = getBoolean(
                 R.styleable.ImageSlider_autoRecoverAfterTouchEvent, true
             )
-            initWithAutoCycling = getBoolean(R.styleable.ImageSlider_initWithAutoCycling, true)
+            initWithAutoCycling = getBoolean(R.styleable.ImageSlider_initWithAutoCycling, false)
             indicatorBackgroundResId = getResourceId(
                 R.styleable.ImageSlider_indicatorBackground, 0
             )
